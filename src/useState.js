@@ -1,24 +1,16 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useRef, useEffect, useState as useStateByReact } from 'react';
-
-function useMounted() {
-  const isMounted = useRef(false);
-  useEffect(
-    () => {
-      isMounted.current = true;
-      return () => {
-        isMounted.current = false;
-      };
-    },
-    [],
-  );
-  return isMounted;
-}
+import React, { useRef, useEffect } from 'react';
 
 function useState(...args) {
-  const isMounted = useMounted();
+  const isMounted = useRef(false);
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
-  const [state, setState] = useStateByReact(...args);
+  const [state, setState] = React.useState(...args);
   const setStateProxy = (...params) => {
     if (isMounted.current) {
       setState(...params);
