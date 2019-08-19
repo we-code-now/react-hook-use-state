@@ -18,5 +18,8 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
-  rules: {},
+  rules: {
+    'react/prop-types': ['off'],
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+  },
 };
