@@ -1,0 +1,82 @@
+{
+  "name": "react-hook-use-state",
+  "version": "0.0.1",
+  "description": "useState() with confidence",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "npm run clean && babel src --out-dir lib --ignore \"src/**/*.spec.js\",\"src/**/*.test.js\"",
+    "clean": "rimraf lib coverage",
+    "cover": "npm run test -- --coverage",
+    "cover:codacy": "npm run cover && cat ./coverage/lcov.info | codacy-coverage",
+    "format": "prettier-eslint --list-different --write \"src/**/*.js\" && remark *.md --output",
+    "lint": "eslint --max-warnings=0 \"src/**/*.js\" && remark *.md",
+    "prepublishOnly": "npm run clean && npm run format && npm run lint && npm run test && npm run build",
+    "test": "jest --bail --verbose",
+    "test:watch": "npm run test -- --watch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier-eslint --list-different --write",
+      "eslint --max-warnings=0",
+      "git add"
+    ]
+  },
+  "remarkConfig": {
+    "plugins": [
+      "remark-preset-lint-recommended"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/we-code-now/react-hook-use-state.git"
+  },
+  "keywords": [
+    "npm",
+    "boilerplate",
+    "lint",
+    "eslint",
+    "prettier",
+    "coverage",
+    "codacy",
+    "ci",
+    "travis",
+    "jest",
+    "test",
+    "debug",
+    "publish"
+  ],
+  "author": "Steven <steven@wecodenow.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/we-code-now/react-hook-use-state/issues"
+  },
+  "homepage": "https://github.com/we-code-now/react-hook-use-state#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "codacy-coverage": "^3.4.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.0.3",
+    "jest": "^24.8.0",
+    "lint-staged": "^9.2.1",
+    "prettier-eslint-cli": "^5.0.0",
+    "remark-cli": "^7.0.0",
+    "remark-preset-lint-recommended": "^3.0.3",
+    "rimraf": "^2.7.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.5.5"
+  }
+}
