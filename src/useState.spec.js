@@ -6,21 +6,24 @@ import {
 
 import useState from './useState';
 
+const ASYNC_TIMEOUT_IN_MS = 1e3;
+const WAIT_TIME_IN_MS = ASYNC_TIMEOUT_IN_MS * 2;
+
 function withUseState(useStateFn) {
   return ({ initialCount = 0 }) => {
     const [count, setCount] = useStateFn(initialCount);
     return (
       <div>
         <span data-testid="count">{count}</span>
-        <button type="button" onClick={() => setCount((prevCount) => prevCount + 1)}>
+        <button type="button" onClick={() => setCount(prevCount => prevCount + 1)}>
           Increase Sync
         </button>
         <button
           type="button"
           onClick={() => {
             setTimeout(() => {
-              setCount((prevCount) => prevCount + 1);
-            }, 1e3);
+              setCount(prevCount => prevCount + 1);
+            }, ASYNC_TIMEOUT_IN_MS);
           }}
         >
           Increase Async
@@ -37,11 +40,11 @@ describe('useState.js', () => {
   afterEach(cleanup);
 
   describe('useState()', () => {
-    function waitInSeconds(seconds) {
+    function waitInMilliseconds(milliseconds) {
       const startTime = Date.now();
       return wait(() => {
-        const elapsedTimeInSeconds = (Date.now() - startTime) / 1e3;
-        if (elapsedTimeInSeconds >= seconds) {
+        const elapsedTimeInMilliseconds = Date.now() - startTime;
+        if (elapsedTimeInMilliseconds >= milliseconds) {
           return true;
         }
         throw new Error();
@@ -63,7 +66,7 @@ describe('useState.js', () => {
       fireEvent.click(getByText(/Increase Async/i));
       expect(getByTestId('count')).toHaveTextContent(/^10$/);
 
-      await waitInSeconds(3);
+      await waitInMilliseconds(WAIT_TIME_IN_MS);
       expect(getByTestId('count')).toHaveTextContent(/^11$/);
     });
 
@@ -77,7 +80,7 @@ describe('useState.js', () => {
       unmount();
 
       const spy = jest.spyOn(console, 'error');
-      await waitInSeconds(3);
+      await waitInMilliseconds(WAIT_TIME_IN_MS);
       expect(spy).toHaveBeenCalled();
 
       spy.mockRestore();
@@ -93,7 +96,7 @@ describe('useState.js', () => {
       unmount();
 
       const spy = jest.spyOn(console, 'error');
-      await waitInSeconds(3);
+      await waitInMilliseconds(WAIT_TIME_IN_MS);
       expect(spy).not.toHaveBeenCalled();
 
       spy.mockRestore();
