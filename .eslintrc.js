@@ -20,6 +20,8 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'arrow-parens': ['error', 'as-needed'],
+    'brace-style': ['error', 'stroustrup'],
+    'object-curly-newline': ['error', { multiline: true, minProperties: 3 }],
     'react/prop-types': ['off'],
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
   },

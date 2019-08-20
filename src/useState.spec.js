@@ -11,8 +11,8 @@ import '@testing-library/jest-dom/extend-expect';
 
 import useState from './useState';
 
-const ASYNC_TIMEOUT_IN_MS = 1000;
-const WAIT_TIME_IN_MS = ASYNC_TIMEOUT_IN_MS * 2;
+const DELAY_IN_MS = 1000;
+const WAIT_TIME_IN_MS = DELAY_IN_MS * 2;
 
 function withUseState(useStateFn) {
   return ({ initialCount = 0 }) => {
@@ -23,13 +23,13 @@ function withUseState(useStateFn) {
       <div>
         <span data-testid="count">{count}</span>
         <button type="button" onClick={increase}>
-          Increase Sync
+          Increase Now
         </button>
         <button
           type="button"
-          onClick={() => setTimeout(increase, ASYNC_TIMEOUT_IN_MS)}
+          onClick={() => setTimeout(increase, DELAY_IN_MS)}
         >
-          Increase Async
+          Increase Delay
         </button>
       </div>
     );
@@ -54,53 +54,65 @@ describe('useState.js', () => {
       });
     }
 
-    it('should work with "near-sync" click', () => {
-      const { getByText, getByTestId } = render(<CounterWithLibUseState initialCount={10} />);
-      expect(getByTestId('count')).toHaveTextContent(/^10$/);
-
-      fireEvent.click(getByText(/Increase Sync/i));
-      expect(getByTestId('count')).toHaveTextContent(/^11$/);
-    });
-
-    it('should work with async click', async () => {
-      const { getByText, getByTestId } = render(<CounterWithLibUseState initialCount={10} />);
-      expect(getByTestId('count')).toHaveTextContent(/^10$/);
-
-      fireEvent.click(getByText(/Increase Async/i));
-      expect(getByTestId('count')).toHaveTextContent(/^10$/);
-
-      await waitInMilliseconds(WAIT_TIME_IN_MS);
-      expect(getByTestId('count')).toHaveTextContent(/^11$/);
-    });
-
-    it('should log error with async click after component is unmounted (React.useState())', async () => {
-      const { getByText, getByTestId, unmount } = render(
-        <CounterWithReactUseState initialCount={10} />,
-      );
-      expect(getByTestId('count')).toHaveTextContent(/^10$/);
-
-      fireEvent.click(getByText(/Increase Async/i));
-      unmount();
-
-      const spy = jest.spyOn(console, 'error');
-      await waitInMilliseconds(WAIT_TIME_IN_MS);
-      expect(spy).toHaveBeenCalled();
-
-      spy.mockRestore();
-    });
-
-    it('should move on with async click after component is unmounted (lib.useState())', async () => {
-      const { getByText, getByTestId, unmount } = render(
+    it('should work with "Increase Now" click', () => {
+      const { getByText, getByTestId } = render(
         <CounterWithLibUseState initialCount={10} />,
       );
       expect(getByTestId('count')).toHaveTextContent(/^10$/);
 
-      fireEvent.click(getByText(/Increase Async/i));
+      fireEvent.click(getByText(/Increase Now/i));
+      expect(getByTestId('count')).toHaveTextContent(/^11$/);
+    });
+
+    it('should work with "Increase Delay" click', async () => {
+      const { getByText, getByTestId } = render(
+        <CounterWithLibUseState initialCount={10} />,
+      );
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      fireEvent.click(getByText(/Increase Delay/i));
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      await waitInMilliseconds(WAIT_TIME_IN_MS);
+      expect(getByTestId('count')).toHaveTextContent(/^11$/);
+    });
+
+    it('should move on with "Increase Delay" click after component is unmounted (lib.useState())', async () => {
+      const {
+        unmount,
+        getByText,
+        getByTestId,
+      } = render(
+        <CounterWithLibUseState initialCount={10} />,
+      );
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      fireEvent.click(getByText(/Increase Delay/i));
       unmount();
 
       const spy = jest.spyOn(console, 'error');
       await waitInMilliseconds(WAIT_TIME_IN_MS);
       expect(spy).not.toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+
+    it('should log error with "Increase Delay" click after component is unmounted (React.useState())', async () => {
+      const {
+        unmount,
+        getByText,
+        getByTestId,
+      } = render(
+        <CounterWithReactUseState initialCount={10} />,
+      );
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      fireEvent.click(getByText(/Increase Delay/i));
+      unmount();
+
+      const spy = jest.spyOn(console, 'error');
+      await waitInMilliseconds(WAIT_TIME_IN_MS);
+      expect(spy).toHaveBeenCalled();
 
       spy.mockRestore();
     });

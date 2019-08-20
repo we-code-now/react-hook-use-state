@@ -71,5 +71,6 @@ src
 .eslintignore
 .eslintrc.js
 .travis.yml
-babel.config.js
 jest.config.js
+babel.config.js
+prettier.config.js
