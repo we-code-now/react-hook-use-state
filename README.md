@@ -6,13 +6,47 @@ useState() with confidence!
 
 ## Table of Contents
 
--   [Install](#install)
--   [License](#license)
+- [Motivation](#motivation)
+- [Disclaimer](#disclaimer)
+- [Install](#install)
+- [Usage](#usage)
+- [License](#license)
+
+## Motivation
+
+Sometimes, we accidentally try to update state on an unmounted React component. And then we get a warning like this:
+
+```text
+Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+```
+
+With `react-hook-use-state`, you can use `useState()` hook with confidence.
+
+## Disclaimer
+
+This package is based on React lifecycle hooks and don't update state if React component is unmounted.
+
+**[BUT ... THIS APPROACH IS AN ANTIPATTERN !](https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html)**
+
+We encourage all asynchronous tasks should be cleaned up when React component is unmounted. But if you don't mind because your code is minimal or any reason, this solution is for you :)
 
 ## Install
 
 ```shell
 $ npm install --save react-hook-use-state
+```
+
+## Usage
+
+- Similar to official `useState()`, super easy!
+
+```js
+import useState from 'react-hook-use-state';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  // your code here
+}
 ```
 
 ## License
