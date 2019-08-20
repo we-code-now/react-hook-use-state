@@ -18,6 +18,7 @@ function withUseState(useStateFn) {
   return ({ initialCount = 0 }) => {
     const [count, setCount] = useStateFn(initialCount);
     const increase = () => setCount(prevCount => prevCount + 1);
+    const increaseDelay = () => setTimeout(increase, DELAY_IN_MS);
 
     return (
       <div>
@@ -25,10 +26,7 @@ function withUseState(useStateFn) {
         <button type="button" onClick={increase}>
           Increase Now
         </button>
-        <button
-          type="button"
-          onClick={() => setTimeout(increase, DELAY_IN_MS)}
-        >
+        <button type="button" onClick={increaseDelay}>
           Increase Delay
         </button>
       </div>
