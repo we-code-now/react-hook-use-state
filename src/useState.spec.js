@@ -1,30 +1,33 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+
 import {
-  wait, render, cleanup, fireEvent,
+  wait,
+  render,
+  cleanup,
+  fireEvent,
 } from '@testing-library/react';
+
+import '@testing-library/jest-dom/extend-expect';
 
 import useState from './useState';
 
-const ASYNC_TIMEOUT_IN_MS = 1e3;
+const ASYNC_TIMEOUT_IN_MS = 1000;
 const WAIT_TIME_IN_MS = ASYNC_TIMEOUT_IN_MS * 2;
 
 function withUseState(useStateFn) {
   return ({ initialCount = 0 }) => {
     const [count, setCount] = useStateFn(initialCount);
+    const increase = () => setCount(prevCount => prevCount + 1);
+
     return (
       <div>
         <span data-testid="count">{count}</span>
-        <button type="button" onClick={() => setCount(prevCount => prevCount + 1)}>
+        <button type="button" onClick={increase}>
           Increase Sync
         </button>
         <button
           type="button"
-          onClick={() => {
-            setTimeout(() => {
-              setCount(prevCount => prevCount + 1);
-            }, ASYNC_TIMEOUT_IN_MS);
-          }}
+          onClick={() => setTimeout(increase, ASYNC_TIMEOUT_IN_MS)}
         >
           Increase Async
         </button>
