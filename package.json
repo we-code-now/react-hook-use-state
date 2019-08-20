@@ -34,19 +34,12 @@
     "url": "git+https://github.com/we-code-now/react-hook-use-state.git"
   },
   "keywords": [
-    "npm",
-    "boilerplate",
-    "lint",
-    "eslint",
-    "prettier",
-    "coverage",
-    "codacy",
-    "ci",
-    "travis",
-    "jest",
-    "test",
-    "debug",
-    "publish"
+    "react",
+    "hook",
+    "hooks",
+    "state",
+    "setState",
+    "useState"
   ],
   "author": "Steven <steven@wecodenow.com>",
   "license": "MIT",
