@@ -6,11 +6,12 @@ useState() with confidence!
 
 ## Table of Contents
 
-- [Motivation](#motivation)
-- [Disclaimer](#disclaimer)
-- [Install](#install)
-- [Usage](#usage)
-- [License](#license)
+-   [Motivation](#motivation)
+-   [Disclaimer](#disclaimer)
+-   [Install](#install)
+-   [Usage](#usage)
+-   [Demo](#demo)
+-   [License](#license)
 
 ## Motivation
 
@@ -26,9 +27,9 @@ With `react-hook-use-state`, you can use `useState()` hook with confidence.
 
 This package is based on React lifecycle hooks and don't update state if React component is unmounted.
 
-**[BUT ... THIS APPROACH IS AN ANTIPATTERN !](https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html)**
+[BUT ... THIS APPROACH IS AN ANTIPATTERN. CLICK HERE TO READ MORE!](https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html)
 
-We encourage all asynchronous tasks should be cleaned up when React component is unmounted. But if you don't mind because your code is minimal or any reason, this solution is for you :)
+I strongly encourage all asynchronous tasks should be cleaned up when React component is unmounted. But if you don't mind for some reason, this solution is for you :)
 
 ## Install
 
@@ -38,7 +39,7 @@ $ npm install --save react-hook-use-state
 
 ## Usage
 
-- Similar to official `useState()`, super easy!
+-   Similar to official `useState()`, super easy!
 
 ```js
 import useState from 'react-hook-use-state';
@@ -48,6 +49,10 @@ function Counter() {
   // your code here
 }
 ```
+
+## Demo
+
+<https://wecodenow-react-hook-use-state.stackblitz.io>
 
 ## License
 
