@@ -8,7 +8,7 @@ useState() with confidence!
 
 -   [Motivation](#motivation)
 -   [Disclaimer](#disclaimer)
--   [Install](#install)
+-   [Installation](#installation)
 -   [Usage](#usage)
 -   [Demo](#demo)
 -   [License](#license)
@@ -31,7 +31,7 @@ This package is based on React lifecycle hooks and don't update state if React c
 
 I strongly encourage all asynchronous tasks should be cleaned up when React component is unmounted. But if you don't mind for some reason, this solution is for you :)
 
-## Install
+## Installation
 
 ```shell
 $ npm install --save react-hook-use-state
@@ -52,7 +52,9 @@ function Counter() {
 
 ## Demo
 
-<https://wecodenow-react-hook-use-state.stackblitz.io>
+Website: <https://wecodenow-react-hook-use-state.stackblitz.io>
+
+Playground: <https://stackblitz.com/edit/wecodenow-react-hook-use-state>
 
 ## License
 
