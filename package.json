@@ -1,6 +1,6 @@
 {
   "name": "react-hook-use-state",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "useState() with confidence",
   "main": "lib/index.js",
   "scripts": {
@@ -42,7 +42,9 @@
     "hooks",
     "state",
     "setState",
-    "useState"
+    "set-state",
+    "useState",
+    "use-state"
   ],
   "author": "Steven <steven@wecodenow.com>",
   "license": "MIT",
