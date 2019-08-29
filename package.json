@@ -50,6 +50,10 @@
     "url": "https://github.com/we-code-now/react-hook-use-state/issues"
   },
   "homepage": "https://github.com/we-code-now/react-hook-use-state#readme",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
