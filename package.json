@@ -3,6 +3,7 @@
   "version": "1.0.4",
   "description": "useState() with confidence",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "npm run clean && babel src --out-dir lib --ignore \"src/**/*.spec.js\",\"src/**/*.test.js\"",
     "clean": "rimraf lib coverage",
