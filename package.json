@@ -1,6 +1,6 @@
 {
   "name": "react-hook-use-state",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "useState() with confidence",
   "main": "lib/index.js",
   "types": "index.d.ts",
