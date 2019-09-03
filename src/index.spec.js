@@ -1,10 +1,109 @@
-import useState from './useState';
-import IndexUseState from './index';
+import React from 'react';
+import { act } from 'react-dom/test-utils';
+
+import '@testing-library/jest-dom/extend-expect';
+import { render, cleanup, fireEvent } from '@testing-library/react';
+
+import useState from './index';
+
+function withUseState(useStateFn) {
+  return ({ initialCount = 0 }) => {
+    const [count, setCount] = useStateFn(initialCount);
+    const increase = () => setCount(prevCount => prevCount + 1);
+    const increaseDelay = () => setTimeout(increase, 1000);
+
+    return (
+      <div>
+        <span data-testid="count">{count}</span>
+        <button type="button" onClick={increase}>
+          Increase Now
+        </button>
+        <button type="button" onClick={increaseDelay}>
+          Increase Delay
+        </button>
+      </div>
+    );
+  };
+}
+
+const CounterWithLibUseState = withUseState(useState);
+const CounterWithReactUseState = withUseState(React.useState);
 
 describe('index.js', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  afterEach(cleanup);
+
   describe('useState()', () => {
-    it('should be exported correctly', () => {
-      expect(useState).toEqual(IndexUseState);
+    let spy;
+
+    beforeEach(() => {
+      spy = jest.spyOn(console, 'error');
+    });
+
+    afterEach(() => {
+      spy.mockRestore();
+    });
+
+    it('should work with "Increase Now" click', () => {
+      const { getByText, getByTestId } = render(
+        <CounterWithLibUseState initialCount={10} />,
+      );
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      fireEvent.click(getByText(/Increase Now/i));
+      expect(getByTestId('count')).toHaveTextContent(/^11$/);
+    });
+
+    it('should work with "Increase Delay" click', () => {
+      const { getByText, getByTestId } = render(
+        <CounterWithLibUseState initialCount={10} />,
+      );
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      fireEvent.click(getByText(/Increase Delay/i));
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+      expect(getByTestId('count')).toHaveTextContent(/^11$/);
+    });
+
+    it('should move on with "Increase Delay" click after component is unmounted (lib.useState())', () => {
+      const { unmount, getByText, getByTestId } = render(
+        <CounterWithLibUseState initialCount={10} />,
+      );
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      fireEvent.click(getByText(/Increase Delay/i));
+      unmount();
+
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should log error with "Increase Delay" click after component is unmounted (React.useState())', () => {
+      const { unmount, getByText, getByTestId } = render(
+        <CounterWithReactUseState initialCount={10} />,
+      );
+      expect(getByTestId('count')).toHaveTextContent(/^10$/);
+
+      fireEvent.click(getByText(/Increase Delay/i));
+      unmount();
+
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+      expect(spy).toHaveBeenCalled();
     });
   });
 });
